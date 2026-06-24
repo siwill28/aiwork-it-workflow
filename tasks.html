@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>IT-USA Tasks — WalkMe IT AI Worker</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+nav { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+nav a { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid #e2e8f0; color: #475569; text-decoration: none; background: #fff; transition: all 0.15s; }
+nav a:hover { border-color: #94a3b8; color: #1e293b; }
+nav a.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+
+h1 { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+
+.layout { display: grid; grid-template-columns: 240px 1fr; gap: 20px; align-items: start; }
+
+.sidebar { position: sticky; top: 24px; }
+.sidebar-section { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+.sidebar-title { font-size: 10px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.sidebar-item { display: block; font-size: 12px; color: #475569; padding: 5px 8px; border-radius: 6px; cursor: pointer; transition: background 0.12s; border: none; background: none; width: 100%; text-align: left; }
+.sidebar-item:hover { background: #f1f5f9; color: #1e293b; }
+.sidebar-item.active { background: #eff6ff; color: #1d4ed8; font-weight: 500; }
+
+.main { display: flex; flex-direction: column; gap: 16px; }
+
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; }
+.card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.card-title { font-size: 15px; font-weight: 600; color: #0f172a; }
+.card-sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+.step-grid { display: flex; flex-direction: column; gap: 0; }
+.step-row { display: grid; grid-template-columns: 36px 1fr; gap: 0; cursor: pointer; }
+.step-row:hover .step-body { background: #f8fafc; }
+.step-num-col { display: flex; flex-direction: column; align-items: center; }
+.step-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #e2e8f0; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #64748b; flex-shrink: 0; z-index: 1; }
+.step-circle.active { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+.step-line { width: 2px; background: #e2e8f0; flex: 1; margin: 2px 0; min-height: 12px; }
+.step-body { padding: 4px 12px 16px 12px; border-radius: 8px; }
+.step-name { font-size: 13px; font-weight: 500; color: #1e293b; margin-bottom: 2px; }
+.step-desc { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+.badge { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 99px; margin-left: 6px; vertical-align: middle; }
+.badge-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.badge-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.badge-amber { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.badge-red { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.route-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; cursor: pointer; transition: all 0.15s; }
+.route-card:hover { border-color: #93c5fd; background: #f0f9ff; }
+.route-card.active { border-color: #3b82f6; background: #eff6ff; }
+.route-card.gap { border-color: #fca5a5; background: #fff5f5; }
+.route-name { font-size: 12px; font-weight: 600; color: #1e293b; }
+.route-skill { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+.subflow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.subflow-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; cursor: pointer; transition: all 0.15s; background: #fafafa; }
+.subflow-card:hover { border-color: #6ee7b7; background: #f0fdf4; }
+.subflow-name { font-size: 12px; font-weight: 600; color: #1e293b; }
+.subflow-desc { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+.detail-panel { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 16px; }
+.detail-panel h4 { font-size: 13px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.detail-panel p { font-size: 12px; color: #475569; line-height: 1.6; margin-bottom: 8px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; }
+.tag-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.tag-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.tag-amber { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.tag-red { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.tag-gray { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.principle-list { display: flex; flex-direction: column; gap: 8px; }
+.principle { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 12px; color: #475569; line-height: 1.5; }
+.principle-icon { font-size: 14px; flex-shrink: 0; }
+
+.open-item { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid #fde68a; background: #fffbeb; font-size: 12px; color: #78350f; line-height: 1.5; margin-bottom: 6px; }
+.open-item-icon { flex-shrink: 0; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="tasks.html" class="active">IT-USA Tasks</a>
+  <a href="incidents.html">New Incidents - US</a>
+  <a href="changes.html">Changes Report</a>
+</nav>
+
+<h1>IT-USA Tasks</h1>
+<p class="page-sub">Trigger: ServiceNow — New Tasks &nbsp;|&nbsp; Audited June 22–23, 2026</p>
+
+<div class="layout">
+
+<div class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-title">Workstream Steps</div>
+    <button class="sidebar-item" onclick="scrollTo('steps')">Steps 1–6</button>
+    <button class="sidebar-item" onclick="scrollTo('routes')">Step 6 Routes</button>
+    <button class="sidebar-item" onclick="scrollTo('subflow')">App Access Sub-flow</button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Reference</div>
+    <button class="sidebar-item" onclick="scrollTo('guidelines')">Guidelines</button>
+    <button class="sidebar-item" onclick="scrollTo('principles')">Design Principles</button>
+    <button class="sidebar-item" onclick="scrollTo('open')">Open Items</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- STEPS CARD -->
+<div class="card" id="steps">
+  <div class="card-header">
+    <div class="card-icon" style="background:#eff6ff">📋</div>
+    <div>
+      <div class="card-title">Workstream Steps</div>
+      <div class="card-sub">Click any step to see full detail</div>
+    </div>
+  </div>
+  <div class="step-grid">
+
+    <div class="step-row" onclick="detail('s1')">
+      <div class="step-num-col"><div class="step-circle" id="c-s1">1</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Retrieve full ticket details</div><div class="step-desc">RITM fields: opened_by, u_task_for, multiRowVariableSets, cat_item, business_service, description, comments</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('s2')">
+      <div class="step-num-col"><div class="step-circle" id="c-s2">2</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Determine resolution path</div><div class="step-desc">Clear ask? If not, ask IT team before proceeding</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('s3')">
+      <div class="step-num-col"><div class="step-circle" id="c-s3">3</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Check if already resolved</div><div class="step-desc">Approval ≠ resolved. If resolved, close and end.</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('s4')">
+      <div class="step-num-col"><div class="step-circle" id="c-s4">4</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Task Type Verifier <span class="badge badge-green">Assignment gate</span></div><div class="step-desc">Validates ticket type + assigns ticket to agent</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('s5')">
+      <div class="step-num-col"><div class="step-circle" id="c-s5">5</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Present task summary</div><div class="step-desc">Internal work note: what, who, target app, required actions</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('s6')">
+      <div class="step-num-col"><div class="step-circle" id="c-s6">6</div></div>
+      <div class="step-body"><div class="step-name">Scope check &amp; routing</div><div class="step-desc">Route to correct skill based on ticket content</div></div>
+    </div>
+
+  </div>
+  <div id="step-detail" style="display:none" class="detail-panel">
+    <h4 id="sd-title"></h4>
+    <p id="sd-body"></p>
+    <div class="tag-row" id="sd-tags"></div>
+  </div>
+</div>
+
+<!-- STEP 6 ROUTES -->
+<div class="card" id="routes">
+  <div class="card-header">
+    <div class="card-icon" style="background:#f0fdf4">🔀</div>
+    <div>
+      <div class="card-title">Step 6 — Active Routes</div>
+      <div class="card-sub">Click any route to see the skill detail</div>
+    </div>
+  </div>
+  <div class="route-grid">
+    <div class="route-card" onclick="routeDetail('r1')"><div class="route-name">App access</div><div class="route-skill">Application Permission Requests</div></div>
+    <div class="route-card" onclick="routeDetail('r2')"><div class="route-name">DL / list serves</div><div class="route-skill">Updated distribution list handling</div></div>
+    <div class="route-card" onclick="routeDetail('r3')"><div class="route-name">New hire</div><div class="route-skill">Welcome Email</div></div>
+    <div class="route-card" onclick="routeDetail('r4')"><div class="route-name">Hardware request</div><div class="route-skill">Assign Hardware Requests and Notify Assignee</div></div>
+    <div class="route-card" onclick="routeDetail('r5')"><div class="route-name">Server patching</div><div class="route-skill">Assign to IT-T3 System, end chat</div></div>
+    <div class="route-card" onclick="routeDetail('r6')"><div class="route-name">Unclear ticket <span class="badge badge-amber">Pending wiring</span></div><div class="route-skill">Unclear Ticket Handling — catch-all</div></div>
+    <div class="route-card gap" onclick="routeDetail('r7')"><div class="route-name" style="color:#991b1b">⚠ Commented-out routes</div><div class="route-skill" style="color:#b45309">Pending team meeting</div></div>
+  </div>
+  <div id="route-detail" style="display:none" class="detail-panel">
+    <h4 id="rd-title"></h4>
+    <p id="rd-body"></p>
+    <div class="tag-row" id="rd-tags"></div>
+  </div>
+</div>
+
+<!-- APP ACCESS SUB-FLOW -->
+<div class="card" id="subflow">
+  <div class="card-header">
+    <div class="card-icon" style="background:#f0fdf4">🔑</div>
+    <div>
+      <div class="card-title">App Access Sub-flow</div>
+      <div class="card-sub">Called from the App access route in Step 6</div>
+    </div>
+  </div>
+  <div class="subflow-grid">
+    <div class="subflow-card" onclick="subDetail('a1')"><div class="subflow-name">1. Confirm requester</div><div class="subflow-desc">Requester Fields Reasoning Agent</div></div>
+    <div class="subflow-card" onclick="subDetail('a2')"><div class="subflow-name">2. Get access policy</div><div class="subflow-desc">Confluence → Okta fallback</div></div>
+    <div class="subflow-card" onclick="subDetail('a3')"><div class="subflow-name">3. Handle approval</div><div class="subflow-desc">Check opened_by vs required approvers</div></div>
+    <div class="subflow-card" onclick="subDetail('a4')"><div class="subflow-name">4. Grant access</div><div class="subflow-desc">Grant App Access Through Okta Agent</div></div>
+    <div class="subflow-card" onclick="subDetail('a5')"><div class="subflow-name">5. Close ticket</div><div class="subflow-desc">Close Task in SNOW — one comment, one close</div></div>
+  </div>
+  <div id="sub-detail" style="display:none" class="detail-panel">
+    <h4 id="ad-title"></h4>
+    <p id="ad-body"></p>
+    <div class="tag-row" id="ad-tags"></div>
+  </div>
+</div>
+
+<!-- GUIDELINES -->
+<div class="card" id="guidelines">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fafafa">📌</div>
+    <div>
+      <div class="card-title">Operating Guidelines</div>
+      <div class="card-sub">Rules that apply throughout the entire workstream</div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Always</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">✓</span>Verify information across multiple fields — never rely on a single source</div>
+        <div class="principle"><span class="principle-icon">✓</span>Provide clear, user-friendly summaries in work notes</div>
+        <div class="principle"><span class="principle-icon">✓</span>Maintain synchronization with ServiceNow status changes</div>
+        <div class="principle"><span class="principle-icon">✓</span>Set Pending + u_pending_reason whenever waiting for a requester reply</div>
+        <div class="principle"><span class="principle-icon">✓</span>Set back to In Progress when requester replies before continuing</div>
+        <div class="principle"><span class="principle-icon">✓</span>CC yourself to watchlist when escalating partial work to IT team</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Stop immediately if</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">✗</span>Ticket assigned to someone other than svc_aiwork_it@walkme.com</div>
+        <div class="principle"><span class="principle-icon">✗</span>Ticket is already closed</div>
+        <div class="principle"><span class="principle-icon">✗</span>User replies with only "thanks" — set back to Closed Complete</div>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;margin-top:12px">Reading ticket fields</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">📋</span>Target app: business_service.display_value (override if description names a different app)</div>
+        <div class="principle"><span class="principle-icon">📋</span>Who submitted: opened_by from the RITM — not the task (that reflects the approver)</div>
+        <div class="principle"><span class="principle-icon">📋</span>Who request is for: u_task_for first, then multiRowVariableSets for on-behalf requests</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN PRINCIPLES -->
+<div class="card" id="principles">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fafafa">🏛</div>
+    <div>
+      <div class="card-title">Confirmed Design Principles</div>
+      <div class="card-sub">Architecture decisions that govern this workstream</div>
+    </div>
+  </div>
+  <div class="principle-list">
+    <div class="principle"><span class="principle-icon">🔑</span><div><strong>Task Type Verifier is the assignment gate.</strong> Assignment to svc_aiwork_it@walkme.com happens inside Task Type Verifier at Step 4. All skills called from Step 6 inherit an already-assigned ticket. No skill in this workstream should include a self-assignment step.</div></div>
+    <div class="principle"><span class="principle-icon">📋</span><div><strong>Approval ≠ resolved.</strong> Approval means the team has authorised the agent to proceed — the task is not done until the agent completes it.</div></div>
+    <div class="principle"><span class="principle-icon">✉️</span><div><strong>Approval satisfied by submitter identity.</strong> If opened_by matches a named required approver in the access policy, the ticket submission itself constitutes approval. The agent proceeds directly to granting access.</div></div>
+    <div class="principle"><span class="principle-icon">🔄</span><div><strong>Comment first, then state change.</strong> On Hold or Pending is set after the agent posts a comment — never before. The agent must communicate with the user before changing ticket state.</div></div>
+    <div class="principle"><span class="principle-icon">📢</span><div><strong>Single notification per action.</strong> Approval Notification in Slack and SNOW Agent is the single point for IT team work notes before executing an Okta change. No duplicate notifications from skill body and action.</div></div>
+    <div class="principle"><span class="principle-icon">🔀</span><div><strong>Skills are orchestrators, not communicators.</strong> Application Permission Requests directs other skills and actions. Communication is owned by the skills and actions that perform the work — not by the orchestrating skill itself.</div></div>
+  </div>
+</div>
+
+<!-- OPEN ITEMS -->
+<div class="card" id="open">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fffbeb">⚠️</div>
+    <div>
+      <div class="card-title">Open Items</div>
+      <div class="card-sub">Gaps and decisions still pending</div>
+    </div>
+  </div>
+  <div class="open-item"><span class="open-item-icon">⚠</span><div><strong>Unclear Ticket Handling not yet wired into Step 6.</strong> The skill is built and confirmed correct but the Step 6 instructions do not yet include a routing line pointing to it as the catch-all. Any ticket that passes Task Type Verifier but does not match an active route currently has no instruction.</div></div>
+  <div class="open-item"><span class="open-item-icon">⚠</span><div><strong>Step 6 commented-out routing items.</strong> AI proactive workflow, any other New Hire / Onboarding tickets, troubleshooting / incident-style requests, Slack channel admin permissions, Zoho Vault access, FedRAMP / Backoffice requests, and a catch-all for anything not listed are all commented out. Pending team meeting decision.</div></div>
+  <div class="open-item"><span class="open-item-icon">⚠</span><div><strong>Server patching — no work notes.</strong> Step 6 assigns to IT-T3 System and ends chat with no work notes explaining the handoff. Should follow the same pattern as other handoffs: add context before ending.</div></div>
+  <div class="open-item"><span class="open-item-icon">⚠</span><div><strong>Incorrect Ticket Handling skill.</strong> Overlaps functionally with Task Type Verifier. References non-existent action Assign Task To Yourself Agent. Not called from any live workstream. Decision needed: archive or repurpose.</div></div>
+</div>
+
+</div><!-- end main -->
+</div><!-- end layout -->
+
+<script>
+var steps = {
+  s1:{title:'Step 1 — Retrieve Full Ticket Details',body:'Uses ServiceNow | Get Request Item Details on the parent RITM number. Retrieves opened_by (actual submitter, not the approver), u_task_for (who request is for), multiRowVariableSets (check for Request for section listing employees submitted on behalf of others), cat_item.display_value (request type), business_service.display_value (target application), description and comments as supplementary context. If multiRowVariableSets contains a Request for section, notes in chat that the ticket was submitted on behalf of those employees.',tags:[{l:'ServiceNow | Get Request Item Details',t:'blue'}]},
+  s2:{title:'Step 2 — Determine Resolution Path',body:'If the requester is describing a problem or asking for help without a clear action specified: asks IT team in chat what comment to leave for the requester, waits for human input, posts that comment via Add Comment, sets ticket to Pending with u_pending_reason = Pending Requester. Does not proceed to resolution until a clear action is confirmed by the IT team. If the requester is explicitly requesting a specific action, proceeds immediately to Step 3.',tags:[{l:'Human-in-loop gate',t:'amber'},{l:'ServiceNow | Add Comment',t:'blue'},{l:'ServiceNow | Update Task',t:'blue'}]},
+  s3:{title:'Step 3 — Check If Already Resolved',body:'Reviews ticket comments and current state. Critical distinction: Approval does not equal resolved. Approval means the team has authorised the agent to proceed — the task is not done until the agent completes the work. If already resolved, uses ServiceNow | Update Task to close then ends chat. If not resolved, proceeds to Step 4.',tags:[{l:'Decision point',t:'gray'}]},
+  s4:{title:'Step 4 — Task Type Verifier (Assignment Gate)',body:'This is the assignment gate for the entire IT-USA Tasks workstream. Uses Task Type Verifier action with catalog item, description, requested app, requester name, and Task ID. Step 1: checks catalog item — if anything other than New Request, ticket was submitted correctly. Step 2: if New Request, checks whether this is genuinely an access request. Step 3: searches ServiceNow for the app. Step 4: matches app name. Step 5: if app found in ServiceNow (ticket incorrectly submitted), closes ticket and tells requester to use Application Permission Request instead. If correctly submitted, assigns ticket to svc_aiwork_it@walkme.com and proceeds. All Step 6 skills inherit an already-assigned ticket.',tags:[{l:'Task Type Verifier',t:'green'},{l:'Assignment gate',t:'green'},{l:'Assign To Yourself',t:'blue'}]},
+  s5:{title:'Step 5 — Present Task Summary',body:'Writes a concise internal summary in ServiceNow | Add Work Notes. Includes: what is being requested, target application (business_service.display_value confirmed against description), required actions, who the request is for (u_task_for or Request for employees if applicable). Formatted with bullet points. No metadata (priority, ticket ID, state). This step is informational only — no action taken on the ticket.',tags:[{l:'ServiceNow | Add Work Notes',t:'blue'},{l:'Internal only — not visible to requester',t:'gray'}]},
+  s6:{title:'Step 6 — Scope Check and Routing',body:'Routes to the correct skill based on ticket content. Active routes: App access → Application Permission Requests. DL/List serves → Updated distribution list handling. New Hire + Account Creation → Welcome Email. Server patching → assign to IT-T3 System and end chat. Hardware → Assign Hardware Requests and Notify Assignee. Unrecognised → Unclear Ticket Handling (pending wiring). Several routes are commented out pending team meeting: AI proactive workflow, other onboarding tickets, incident-style requests, Slack admin, Zoho Vault, FedRAMP.',tags:[{l:'Routing hub',t:'green'}]}
+};
+
+var routes = {
+  r1:{title:'Application Permission Requests',body:'Handles any request to give an employee access to an app. Calls Requester Fields Reasoning Agent to confirm who the request is for — checks opened_by vs u_task_for, handles on-behalf submissions. Calls Get App Access Policy Agent to find Confluence instructions and check approval requirements against opened_by. If approval already satisfied (submitter is a named approver): proceeds directly to granting access. If approval still required: posts one work note via Approval Notification in Slack and SNOW Agent, sets ticket to Pending, waits for reply. If Microsoft 365 or Teams: branches to Microsoft 365 and teams approvals skill. Grants access via Grant App Access Through Okta Agent. Posts resolution comment and closes via Close Task in SNOW.',tags:[{l:'Application Permission Requests',t:'green'},{l:'Requester Fields Reasoning Agent',t:'blue'},{l:'Get App Access Policy Agent',t:'blue'},{l:'Grant App Access Through Okta Agent',t:'blue'}]},
+  r2:{title:'Updated Distribution List Handling',body:'Handles DL, list serve, and distribution list requests. Confirms requester via Requester Fields Reasoning Agent — handles on-behalf submissions. Supports: add users to group, remove users from group, create new DL, delete DL. Uses Google Workspace | Get Group Members to verify current membership before changes. Requires Approval Notification in Slack and SNOW Agent before executing any change. Closes via Close Task in SNOW. Supersedes the deprecated Distribution List Requests skill — do not use that one.',tags:[{l:'Updated distribution list handling',t:'green'},{l:'Requester Fields Reasoning Agent',t:'blue'},{l:'Google Workspace tools',t:'blue'}]},
+  r3:{title:'Welcome Email',body:'Fires when ticket is named New Hire and Account Creation and IT Permissions. Assigns via Assign Welcome Email To Yourself, retrieves name, personal email, and start date from ticket. Sends a welcome email via Gmail | Send Email to both personal and work email addresses. CCs nhsf_notifications@walkme.com and peopleteam-ops@walkme.com. Attaches onboarding documents from Google Drive. Does not fire if Contractor or Equipment Preparation appears in ticket name.',tags:[{l:'Welcome Email',t:'green'},{l:'Gmail | Send Email',t:'blue'},{l:'Google Drive attachment',t:'blue'}]},
+  r4:{title:'Assign Hardware Requests and Notify Assignee',body:'Handles hardware requests. Verifies cat_item.display_value equals Request Hardware. Asks user for shipping address including ZIP code via Add Comment, sets Pending / Pending Requester. Waits for address reply. Assigns task to hardware assignee, sets Pending / Pending 3rd Party. Sends email notification to assignee with full task summary. Adds work note confirming completion.',tags:[{l:'Assign Hardware Requests and Notify Assignee',t:'green'},{l:'Gmail | Send Email',t:'blue'},{l:'ServiceNow | Add Comment',t:'blue'}]},
+  r5:{title:'Server Patching',body:'Uses ServiceNow | Update Task to assign the ticket to team IT-T3 - System. Then ends chat. Known debt: no work notes are added explaining the handoff. Should follow the same pattern as other handoffs — add context before ending so the receiving team knows what the agent did and why.',tags:[{l:'ServiceNow | Update Task',t:'blue'},{l:'Known debt: no work notes',t:'amber'}]},
+  r6:{title:'Unclear Ticket Handling — Catch-all',body:'Fires when ticket passes Task Type Verifier but the request is ambiguous or unclear. Asks a clarifying question via Add Comment. Sets ticket to Pending. Waits for reply. Sets back to In Progress. Re-evaluates ticket. Returns to Step 6 routing with the now-clear ask. No team notification — stays in the normal ai.work queue. Important: not yet wired into Step 6 instructions — the routing line pointing to this skill is pending the team meeting.',tags:[{l:'Unclear Ticket Handling',t:'green'},{l:'Not yet wired into Step 6',t:'amber'}]},
+  r7:{title:'Commented-out Routing Items — Pending Team Meeting',body:'The following routing scenarios are commented out and have no active path: AI being proactive (intent unclear, needs a workflow built), any other New Hire / Onboarding ticket, troubleshooting / incident-style requests in a task ticket, permissions within an app such as Slack channel admin, Zoho Vault access, FedRAMP / Backoffice requests, and a catch-all for anything not listed. Tickets matching these patterns currently have no instruction. Each needs a decision: build a skill, route to a handoff, or explicitly mark out of scope.',tags:[{l:'Pending team meeting',t:'amber'},{l:'No active route',t:'red'}]}
+};
+
+var subflow = {
+  a1:{title:'1 — Confirm Requester (Requester Fields Reasoning Agent)',body:'Uses ServiceNow | Get Request Details with the provided request number. Extracts the requester field (person who opened or authorised the request) and the requested_for field (person the request applies to). Validates both fields — if either is missing or mismatched, resolves before proceeding. Checks for on-behalf submissions where the ticket was submitted for someone other than the submitter. Stores resolved values as context.requester_email and context.request_for_list for all downstream actions.',tags:[{l:'Requester Fields Reasoning Agent',t:'blue'},{l:'ServiceNow | Get Request Details',t:'blue'}]},
+  a2:{title:'2 — Get Access Policy (Get App Access Policy Agent)',body:'Searches Confluence under parent page 635109380 for the app name with up to 7 name variations (spaces, abbreviations, common alternatives). If found, reads the access policy. Checks whether approval is required from specific named individuals. Compares those names against the opened_by field passed from Application Permission Requests. Flags in output: approval satisfied (opened_by matches a named approver) or approval required (with approver names). Falls back to Okta group search if no Confluence page found. Always produces a user-facing message explaining how to access the app.',tags:[{l:'Get App Access Policy Agent',t:'blue'},{l:'Confluence CQL search',t:'blue'},{l:'Okta fallback',t:'gray'},{l:'Approval check vs opened_by',t:'green'}]},
+  a3:{title:'3 — Handle Approval Requirements',body:'If Get App Access Policy Agent returns approval satisfied: proceeds directly to Handle Granting Access. If approval still required: posts one work note via Approval Notification in Slack and SNOW Agent naming the required approvers and the action pending their approval. Uses ServiceNow | Update Task to set status to Pending and u_pending_reason to Pending Requester. Waits for a reply. When an approver replies confirming, proceeds to Handle Granting Access.',tags:[{l:'Approval Notification in Slack and SNOW Agent',t:'blue'},{l:'ServiceNow | Update Task',t:'blue'},{l:'One work note only',t:'green'}]},
+  a4:{title:'4 — Grant Access (Grant App Access Through Okta Agent)',body:'Gets employee Okta identity via Get Employee Details Agent (tries up to 6 email/name variations before returning to user). Uses Okta | Search Groups to find correct groups — uses policy already in context from Application Permission Requests, no second policy lookup. Checks current group membership. Posts one approval work note via Approval Notification in Slack and SNOW Agent before adding. Adds user to Okta group. Posts resolution comment to requester via ServiceNow | Add Comment — this comment is passed as the resolution template to Close Task in SNOW.',tags:[{l:'Grant App Access Through Okta Agent',t:'blue'},{l:'Get Employee Details Agent',t:'blue'},{l:'Okta | Add Users to Groups',t:'blue'},{l:'No second policy lookup',t:'green'}]},
+  a5:{title:'5 — Close Ticket (Close Task in SNOW)',body:'Receives resolution comment from Grant App Access Through Okta Agent as template. Uses that template as the comment to the requester — does not generate a new closing message. Sets assignee to svc_aiwork_it@walkme.com. Sets State to Closed Complete. Leaves assignment_group unchanged. One comment, one close — no duplicates.',tags:[{l:'Close Task in SNOW',t:'blue'},{l:'Uses resolution template',t:'green'},{l:'One comment, one close',t:'green'}]}
+};
+
+var currentStep = null, currentRoute = null, currentSub = null;
+
+function detail(id) {
+  var d = steps[id];
+  if (!d) return;
+  if (currentStep) document.getElementById('c-' + currentStep).classList.remove('active');
+  currentStep = id;
+  document.getElementById('c-' + id).classList.add('active');
+  document.getElementById('sd-title').textContent = d.title;
+  document.getElementById('sd-body').textContent = d.body;
+  var tr = document.getElementById('sd-tags');
+  tr.innerHTML = '';
+  d.tags.forEach(function(t) { tr.innerHTML += '<span class="tag tag-' + t.t + '">' + t.l + '</span>'; });
+  document.getElementById('step-detail').style.display = 'block';
+}
+
+function routeDetail(id) {
+  var d = routes[id];
+  if (!d) return;
+  document.querySelectorAll('.route-card').forEach(function(c) { c.classList.remove('active'); });
+  event.currentTarget.classList.add('active');
+  document.getElementById('rd-title').textContent = d.title;
+  document.getElementById('rd-body').textContent = d.body;
+  var tr = document.getElementById('rd-tags');
+  tr.innerHTML = '';
+  d.tags.forEach(function(t) { tr.innerHTML += '<span class="tag tag-' + t.t + '">' + t.l + '</span>'; });
+  document.getElementById('route-detail').style.display = 'block';
+}
+
+function subDetail(id) {
+  var d = subflow[id];
+  if (!d) return;
+  document.querySelectorAll('.subflow-card').forEach(function(c) { c.classList.remove('active'); });
+  event.currentTarget.classList.add('active');
+  document.getElementById('ad-title').textContent = d.title;
+  document.getElementById('ad-body').textContent = d.body;
+  var tr = document.getElementById('ad-tags');
+  tr.innerHTML = '';
+  d.tags.forEach(function(t) { tr.innerHTML += '<span class="tag tag-' + t.t + '">' + t.l + '</span>'; });
+  document.getElementById('sub-detail').style.display = 'block';
+}
+
+function scrollTo(id) { document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+</script>
+</body>
+</html>

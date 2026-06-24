@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>New Incidents - US — WalkMe IT AI Worker</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+nav { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+nav a { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid #e2e8f0; color: #475569; text-decoration: none; background: #fff; transition: all 0.15s; }
+nav a:hover { border-color: #94a3b8; color: #1e293b; }
+nav a.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+
+h1 { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+
+.layout { display: grid; grid-template-columns: 240px 1fr; gap: 20px; align-items: start; }
+
+.sidebar { position: sticky; top: 24px; }
+.sidebar-section { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+.sidebar-title { font-size: 10px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.sidebar-item { display: block; font-size: 12px; color: #475569; padding: 5px 8px; border-radius: 6px; cursor: pointer; transition: background 0.12s; border: none; background: none; width: 100%; text-align: left; }
+.sidebar-item:hover { background: #f1f5f9; color: #1e293b; }
+
+.main { display: flex; flex-direction: column; gap: 16px; }
+
+.card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; }
+.card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.card-title { font-size: 15px; font-weight: 600; color: #0f172a; }
+.card-sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+.step-grid { display: flex; flex-direction: column; gap: 0; }
+.step-row { display: grid; grid-template-columns: 36px 1fr; gap: 0; cursor: pointer; }
+.step-row:hover .step-body { background: #f8fafc; border-radius: 8px; }
+.step-num-col { display: flex; flex-direction: column; align-items: center; }
+.step-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #e2e8f0; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #64748b; flex-shrink: 0; z-index: 1; transition: all 0.15s; }
+.step-circle.active { border-color: #10b981; background: #f0fdf4; color: #065f46; }
+.step-line { width: 2px; background: #e2e8f0; flex: 1; margin: 2px 0; min-height: 12px; }
+.step-body { padding: 4px 12px 16px 12px; }
+.step-name { font-size: 13px; font-weight: 500; color: #1e293b; margin-bottom: 2px; }
+.step-desc { font-size: 12px; color: #64748b; line-height: 1.5; }
+.step-note { font-size: 11px; color: #0891b2; margin-top: 3px; font-style: italic; }
+
+.badge { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 99px; margin-left: 6px; vertical-align: middle; }
+.badge-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.badge-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.badge-amber { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.badge-cyan { background: #e0f2fe; color: #0c4a6e; border: 1px solid #bae6fd; }
+
+.detail-panel { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 16px; }
+.detail-panel h4 { font-size: 13px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.detail-panel p { font-size: 12px; color: #475569; line-height: 1.6; margin-bottom: 8px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; }
+.tag-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.tag-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.tag-amber { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.tag-red { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.tag-gray { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.tag-cyan { background: #e0f2fe; color: #0c4a6e; border: 1px solid #bae6fd; }
+
+.flow-diagram { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin: 12px 0; }
+.flow-node { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 500; color: #475569; }
+.flow-node.active-node { background: #f0fdf4; border-color: #86efac; color: #166534; }
+.flow-node.skip { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.flow-arrow { color: #94a3b8; font-size: 12px; }
+.flow-skip-note { font-size: 10px; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 99px; padding: 2px 8px; margin-left: 4px; }
+
+.principle-list { display: flex; flex-direction: column; gap: 8px; }
+.principle { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 12px; color: #475569; line-height: 1.5; }
+.principle-icon { font-size: 14px; flex-shrink: 0; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.open-item { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid #fde68a; background: #fffbeb; font-size: 12px; color: #78350f; line-height: 1.5; margin-bottom: 6px; }
+.monitor-item { display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1px solid #bfdbfe; background: #eff6ff; font-size: 12px; color: #1e40af; line-height: 1.5; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="tasks.html">IT-USA Tasks</a>
+  <a href="incidents.html" class="active">New Incidents - US</a>
+  <a href="changes.html">Changes Report</a>
+</nav>
+
+<h1>New Incidents - US</h1>
+<p class="page-sub">Trigger: ServiceNow — New Incidents &nbsp;|&nbsp; Audited June 22–23, 2026</p>
+
+<div class="layout">
+
+<div class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-title">Workstream</div>
+    <button class="sidebar-item" onclick="scrollTo('flow')">Flow Overview</button>
+    <button class="sidebar-item" onclick="scrollTo('steps')">All Steps</button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Reference</div>
+    <button class="sidebar-item" onclick="scrollTo('guidelines')">Guidelines</button>
+    <button class="sidebar-item" onclick="scrollTo('principles')">Design Principles</button>
+    <button class="sidebar-item" onclick="scrollTo('open')">Open Items</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- FLOW OVERVIEW -->
+<div class="card" id="flow">
+  <div class="card-header">
+    <div class="card-icon" style="background:#f0fdf4">🗺</div>
+    <div>
+      <div class="card-title">Flow Overview</div>
+      <div class="card-sub">The complete path from trigger to close</div>
+    </div>
+  </div>
+
+  <div style="font-size:12px;color:#475569;margin-bottom:8px;font-weight:500">Happy path — KB finds confident resolution:</div>
+  <div class="flow-diagram">
+    <div class="flow-node active-node">Assign</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Collect info</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Troubleshoot</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node skip">Provide Resolution</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Monitor</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Close</div>
+    <span class="flow-skip-note">↑ skips steps 4, 5, 6</span>
+  </div>
+
+  <div style="font-size:12px;color:#475569;margin:12px 0 8px;font-weight:500">Full path — KB inconclusive, needs more info:</div>
+  <div class="flow-diagram">
+    <div class="flow-node active-node">Assign</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Collect info</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Troubleshoot</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">Access verify</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">System data</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">Gather info</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Resolve</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Monitor</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active-node">Close</div>
+  </div>
+
+  <div style="font-size:11px;color:#64748b;margin-top:8px">
+    <span style="display:inline-block;width:10px;height:10px;background:#f0fdf4;border:1px solid #86efac;border-radius:2px;margin-right:4px"></span>Always runs &nbsp;&nbsp;
+    <span style="display:inline-block;width:10px;height:10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:2px;margin-right:4px"></span>KB confident skip &nbsp;&nbsp;
+    <span style="display:inline-block;width:10px;height:10px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:2px;margin-right:4px"></span>Conditional only
+  </div>
+</div>
+
+<!-- ALL STEPS -->
+<div class="card" id="steps">
+  <div class="card-header">
+    <div class="card-icon" style="background:#f0fdf4">📋</div>
+    <div>
+      <div class="card-title">Workstream Steps</div>
+      <div class="card-sub">Click any step to see full detail</div>
+    </div>
+  </div>
+  <div class="step-grid">
+
+    <div class="step-row" onclick="detail('i1')">
+      <div class="step-num-col"><div class="step-circle" id="c-i1">1</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Assign</div><div class="step-desc">Only if unassigned and not emergency channel. Confirms with user if they request reassignment.</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i2')">
+      <div class="step-num-col"><div class="step-circle" id="c-i2">2</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Collect ticket info <span class="badge badge-cyan">Reads full history</span></div><div class="step-desc">Full details + complete comment thread. Jumps to the step that reflects the current conversation state.</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i3')">
+      <div class="step-num-col"><div class="step-circle" id="c-i3">3</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Troubleshooting <span class="badge badge-blue">KB clear → skip to resolution</span></div><div class="step-desc">SAP migration → SAP Comms. Otherwise General Troubleshooting + Targeted KB Search.</div><div class="step-note">If KB confident: skip steps 4, 5, 6 and go directly to Provide Resolution → Monitor</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i4')">
+      <div class="step-num-col"><div class="step-circle" id="c-i4">4</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Application access verification <span class="badge badge-amber">Conditional</span></div><div class="step-desc">Access issues only. Not for Okta authentication issues.</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i5')">
+      <div class="step-num-col"><div class="step-circle" id="c-i5">5</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">System data collection <span class="badge badge-amber">Conditional</span></div><div class="step-desc">Only if Confluence KB article specifically recommends additional system checks.</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i6')">
+      <div class="step-num-col"><div class="step-circle" id="c-i6">6</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Gather additional information <span class="badge badge-amber">Conditional</span></div><div class="step-desc">Generate Clarifying Questions → Add Comment → On Hold / Awaiting Caller</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i7')">
+      <div class="step-num-col"><div class="step-circle" id="c-i7">7</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Provide resolution</div><div class="step-desc">KB content → Add Comment with troubleshooting steps → Confluence links</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i8')">
+      <div class="step-num-col"><div class="step-circle" id="c-i8">8</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Pending confirmation <span class="badge badge-amber">On Hold / Awaiting Caller</span></div><div class="step-desc">SLA paused while waiting for user to confirm resolution worked</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i9')">
+      <div class="step-num-col"><div class="step-circle" id="c-i9">9</div><div class="step-line"></div></div>
+      <div class="step-body"><div class="step-name">Monitor and follow up</div><div class="step-desc">Re-read full thread before acting. Acknowledge reply. Advance, don't repeat. 4-exchange escalation limit.</div></div>
+    </div>
+
+    <div class="step-row" onclick="detail('i10')">
+      <div class="step-num-col"><div class="step-circle" id="c-i10">10</div></div>
+      <div class="step-body"><div class="step-name">Close ticket</div><div class="step-desc">Close Incident in SNOW Action — validates changes took effect before ending</div></div>
+    </div>
+
+  </div>
+  <div id="step-detail" style="display:none" class="detail-panel">
+    <h4 id="sd-title"></h4>
+    <p id="sd-body"></p>
+    <div class="tag-row" id="sd-tags"></div>
+  </div>
+</div>
+
+<!-- GUIDELINES -->
+<div class="card" id="guidelines">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fafafa">📌</div>
+    <div>
+      <div class="card-title">Operating Guidelines</div>
+      <div class="card-sub">Scope, eligibility, and operating principles</div>
+    </div>
+  </div>
+  <div class="two-col">
+    <div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Process when</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">✓</span>Incident status is New or In Progress AND unassigned</div>
+        <div class="principle"><span class="principle-icon">✓</span>Incident is already assigned to AI Work</div>
+        <div class="principle"><span class="principle-icon">✓</span>Incident was reassigned from another agent to AI Work</div>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;margin-top:12px">Stop immediately if</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">✗</span>Incident assigned to any other team or user</div>
+        <div class="principle"><span class="principle-icon">✗</span>Incident is already resolved</div>
+        <div class="principle"><span class="principle-icon">✗</span>Incident opened by ai.work indicating emergency IT channel</div>
+        <div class="principle"><span class="principle-icon">✗</span>Incident is related to FedRAMP (out of scope)</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Operating principles</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">📋</span>First action is always ServiceNow | Get Incident Details including full comment thread</div>
+        <div class="principle"><span class="principle-icon">✓</span>Resolution must be explicitly confirmed by the user before closing (unless 3-day inactivity applies)</div>
+        <div class="principle"><span class="principle-icon">⏸</span>On Hold / Awaiting Caller is set after agent posts a comment — only when waiting for user response to a resolution or clarifying questions</div>
+        <div class="principle"><span class="principle-icon">📊</span>Use ServiceNow | Get Table Schema if a field value is missing before updating</div>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;margin-top:12px">Tone</div>
+      <div class="principle-list">
+        <div class="principle"><span class="principle-icon">💬</span>Write directly to the user, not about them. Polite and professional, not robotic. No internal IT jargon. Acknowledge frustration.</div>
+        <div class="principle"><span class="principle-icon">⚡</span>Skip asking questions if KB has a clear single path, if system checks identified a root cause, or if you can already resolve with what you know.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN PRINCIPLES -->
+<div class="card" id="principles">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fafafa">🏛</div>
+    <div>
+      <div class="card-title">Confirmed Design Principles</div>
+      <div class="card-sub">Architecture decisions governing this workstream</div>
+    </div>
+  </div>
+  <div class="principle-list">
+    <div class="principle"><span class="principle-icon">📖</span><div><strong>Read full history before acting.</strong> Collect Ticket Information fetches the complete comment thread. The agent must understand the current state of the conversation and jump to the appropriate step rather than always running the full pipeline from the top.</div></div>
+    <div class="principle"><span class="principle-icon">⚡</span><div><strong>Try to resolve fast — ask only when needed.</strong> Troubleshooting runs before Gather Additional Information. If KB produces a confident resolution path, skip steps 4, 5, and 6 entirely and go directly to Provide Resolution. Only ask clarifying questions when KB is genuinely inconclusive.</div></div>
+    <div class="principle"><span class="principle-icon">💬</span><div><strong>Comment first, then state change.</strong> On Hold / Awaiting Caller is set after the agent posts a comment to the user — never before. The agent must communicate before changing ticket state.</div></div>
+    <div class="principle"><span class="principle-icon">🔄</span><div><strong>Monitor means re-read, acknowledge, advance.</strong> After each user reply, the agent must re-fetch the full ticket and comment thread, review what has already been provided, acknowledge what the user said, and advance to the next logical step rather than repeating prior steps.</div></div>
+    <div class="principle"><span class="principle-icon">⏱</span><div><strong>4-exchange escalation limit.</strong> After 4 exchanges (one AI comment + one user reply = one exchange), escalate by changing assignee to unknown and adding a comment explaining why. This prevents troubleshooting loops when KB quality is insufficient.</div></div>
+    <div class="principle"><span class="principle-icon">📷</span><div><strong>Agent cannot view attachments.</strong> If a user attaches a screenshot of an error, Generate Clarifying Questions explicitly asks the user to paste the exact error text as a comment so the agent can read it.</div></div>
+  </div>
+</div>
+
+<!-- OPEN ITEMS -->
+<div class="card" id="open">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fffbeb">⚠️</div>
+    <div>
+      <div class="card-title">Open Items</div>
+      <div class="card-sub">Gaps, monitoring items, and pending decisions</div>
+    </div>
+  </div>
+  <div class="open-item"><span>⚠</span><div><strong>Troubleshooting exit condition needs updating.</strong> The active instruction says "if a clear resolution path was found, proceed directly to Provide Resolution" but does not say to skip Application Access Verification, System Data Collection, and Gather Additional Information. Without this explicit stop, the agent falls through to those steps and generates a second comment. Add: "skip steps 4, 5, 6 and proceed directly to Provide Resolution then Monitor and Follow Up."</div></div>
+  <div class="open-item"><span>⚠</span><div><strong>General Troubleshooting — redundant assignment check.</strong> The skill opens with a check to make sure the ticket is assigned. Assignment is already handled at the workstream level (Step 1 Assign). The check is harmless but redundant. Low priority cleanup.</div></div>
+  <div class="monitor-item"><span>ℹ</span><div><strong>Monitor — Generate Clarifying Questions example questions commented out.</strong> All example questions in Core Clarifying Question Categories are commented out as a deliberate test. Evaluating whether the agent generates contextually appropriate questions from category headers alone. If question quality drops, restore examples as guidance. If quality holds or improves, remove commented lines permanently.</div></div>
+  <div class="monitor-item"><span>ℹ</span><div><strong>Wrong ticket number in approval UI is platform behavior.</strong> When a tool requires approval (addTaskComment_variant_2), the approval UI shows INC0010001 rather than the actual ticket number. This is a platform artifact from how ai.work processes tool calls requiring human approval. The comment posts to the correct ticket once approved. Not a bug.</div></div>
+</div>
+
+</div><!-- end main -->
+</div><!-- end layout -->
+
+<script>
+var steps = {
+  i1:{title:'Assign',body:'Uses Assign Incident To Yourself Action only if the ticket is unassigned AND was not opened through the emergency Slack channel by ai.work (check comments for this). If a user explicitly requests that ai.work assign the ticket, confirms they want the change then assigns. If the ticket is assigned to anyone other than AI Work or svc_aiwork_it@walkme.com, stops all processing and ends chat immediately.',tags:[{l:'Assign Incident To Yourself Action',t:'blue'}]},
+  i2:{title:'Collect Ticket Info',body:'Uses ServiceNow | Get Incident Details to fetch the full ticket including short description, details, and the complete comments thread. Reviews all existing comments to understand the current state of the conversation — what has already been asked, confirmed, or tried. If the most recent comment is from the user, the ticket is not pending. The user has responded and is awaiting a reply. The agent must not change ticket state in this step. Proceeds to the step that reflects the current state of the conversation.',tags:[{l:'ServiceNow | Get Incident Details',t:'blue'},{l:'Full comment history',t:'green'},{l:'No state change here',t:'cyan'}]},
+  i3:{title:'Troubleshooting',body:'If the user says the issue is already resolved, skips to Provide Resolution. If short description equals SAP Laptop - Transition from WM laptop to SAP laptop, uses SAP Laptop Migration Comms skill. Otherwise uses General Troubleshooting skill which first reviews comment history to inform search terms, then runs Targeted KB Search (max 2 CQL queries, 5 pages per query). Exit logic: if KB produces a confident resolution path that does not require additional user input, skip Application Access Verification, System Data Collection, and Gather Additional Information — proceed directly to Provide Resolution then Monitor and Follow Up. If KB is inconclusive or additional user details are needed, proceed to step 4.',tags:[{l:'General Troubleshooting',t:'green'},{l:'Targeted KB Search',t:'blue'},{l:'SAP Laptop Migration Comms',t:'blue'},{l:'KB confident = skip steps 4 5 6',t:'green'}]},
+  i4:{title:'Application Access Verification',body:'Conditional — only fires when the issue involves access or permissions to a specific application. Does not fire for Okta issues (Okta is the company authentication layer that manages all app access — it is out of scope for this step). Uses Application Access Verification action which searches Confluence under parent page 635109380 with up to 2 CQL queries, falls back to Okta group search if no Confluence doc found (max 2 Okta searches), and outputs structured access findings including root cause determination.',tags:[{l:'Application Access Verification',t:'blue'},{l:'Conditional only',t:'gray'},{l:'Not for Okta auth issues',t:'amber'}]},
+  i5:{title:'System Data Collection',body:'Conditional — only runs if the Confluence KB article found during troubleshooting explicitly recommends additional system checks for this issue. Uses System Data Collection action which runs: Okta log analysis (Get Okta User ID By Email + Search System Log), multi-device check (List User Devices) if suspected. Outputs structured findings: what was checked and why, authentication and login analysis, device analysis, technical findings, root cause if identified. Skip this step entirely if KB did not recommend it.',tags:[{l:'System Data Collection',t:'blue'},{l:'Conditional only',t:'gray'}]},
+  i6:{title:'Gather Additional Information',body:'Only fires if KB was inconclusive and the agent does not have enough information to resolve the issue. Uses Generate Clarifying Questions action which: reviews all existing comments before generating, explicitly acknowledges what the user has already told the agent at the start of the comment, asks only what is still missing, cannot view ticket attachments so asks the user to paste error text if they have attached a screenshot. Posts questions via ServiceNow | Add Comment. After posting, sets ticket to On Hold / Awaiting Caller using ServiceNow | Update Incident to stop the SLA clock. Waits for user reply before proceeding.',tags:[{l:'Generate Clarifying Questions',t:'blue'},{l:'ServiceNow | Add Comment',t:'blue'},{l:'On Hold after posting',t:'amber'}]},
+  i7:{title:'Provide Resolution',body:'Once all information is available. Uses the most relevant KB article content. If multiple applicable pages found (up to 4), combines into a single comment to avoid duplication. Posts via ServiceNow | Add Comment in a human, helpful tone. Includes links to Confluence pages in format [> confluence_page_id]. Write troubleshooting steps and/or resolution clearly. If the agent reached here via the KB-confident skip path (bypassing steps 4, 5, 6), this fires immediately after troubleshooting completes.',tags:[{l:'ServiceNow | Add Comment',t:'blue'},{l:'Up to 4 KB articles combined',t:'gray'},{l:'Confluence links included',t:'gray'}]},
+  i8:{title:'Pending Confirmation',body:'After sending a resolution to the user, sets ticket to On Hold / Awaiting Caller using ServiceNow | Update Incident with key: state, value: On Hold and key: hold_reason, value: Awaiting Caller. This stops the SLA clock while waiting for the user to confirm whether the resolution worked. Only fires after a resolution or troubleshooting steps have been sent — not during mid-troubleshooting when waiting for clarifying question answers.',tags:[{l:'ServiceNow | Update Incident',t:'blue'},{l:'On Hold',t:'amber'},{l:'SLA pause',t:'amber'},{l:'Only after resolution sent',t:'green'}]},
+  i9:{title:'Monitor and Follow Up',body:'After each user reply, before taking any action: uses ServiceNow | Get Incident Details to retrieve the full ticket including all comments and prior exchanges. Reviews what the agent has already told the user and what the user has already confirmed or tried. Does not repeat steps already provided. Acknowledges what the user reported and advances to the next logical troubleshooting step based on their response. Continues until user confirms resolution. After 4 separate exchanges (one AI comment + one user reply = one exchange), escalates: uses ServiceNow | Update Incident to change assignee to unknown and adds a comment explaining why.',tags:[{l:'ServiceNow | Get Incident Details',t:'blue'},{l:'Acknowledge and advance',t:'green'},{l:'4-exchange escalation limit',t:'amber'}]},
+  i10:{title:'Close Ticket',body:'When user confirms issue is resolved: uses Close Incident in SNOW Action. The action: gets caller name from Caller field, uses ServiceNow | Add Comment to write a friendly closing message to the caller acknowledging their issue and describing what resolved it, uses ServiceNow | Update Incident to set state to Resolved with close_code, sets assignee to svc_aiwork_it@walkme.com. Then validates changes took effect by re-fetching the ticket via Get Incident Details. If the state did not update correctly, asks the user to close manually.',tags:[{l:'Close Incident in SNOW Action',t:'green'},{l:'Validates changes',t:'gray'}]}
+};
+
+var currentStep = null;
+function detail(id) {
+  var d = steps[id];
+  if (!d) return;
+  if (currentStep) document.getElementById('c-' + currentStep).classList.remove('active');
+  currentStep = id;
+  document.getElementById('c-' + id).classList.add('active');
+  document.getElementById('sd-title').textContent = d.title;
+  document.getElementById('sd-body').textContent = d.body;
+  var tr = document.getElementById('sd-tags');
+  tr.innerHTML = '';
+  d.tags.forEach(function(t) { tr.innerHTML += '<span class="tag tag-' + t.t + '">' + t.l + '</span>'; });
+  document.getElementById('step-detail').style.display = 'block';
+  document.getElementById('step-detail').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function scrollTo(id) { document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+</script>
+</body>
+</html>

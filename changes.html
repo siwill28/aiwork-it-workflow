@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Changes Report — WalkMe IT AI Worker</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; padding: 24px; max-width: 960px; margin: 0 auto; }
+
+nav { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+nav a { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid #e2e8f0; color: #475569; text-decoration: none; background: #fff; transition: all 0.15s; }
+nav a:hover { border-color: #94a3b8; color: #1e293b; }
+nav a.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+
+h1 { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+
+.section { margin-bottom: 32px; }
+.section-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+
+.item { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 10px; }
+.item-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.item-title { font-size: 14px; font-weight: 600; color: #0f172a; }
+.status-pill { font-size: 11px; padding: 2px 10px; border-radius: 99px; flex-shrink: 0; }
+.status-updated { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.status-new { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.status-deprecated { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.status-confirmed { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.status-removed { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.status-pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.status-rebuilt { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; }
+
+.change-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.change-list li { display: flex; gap: 8px; font-size: 12px; color: #475569; line-height: 1.5; }
+.change-list li::before { content: "→"; color: #94a3b8; flex-shrink: 0; font-size: 12px; padding-top: 1px; }
+.change-list li strong { color: #1e293b; }
+
+.what-now { margin-top: 10px; padding: 10px 12px; background: #f8fafc; border-radius: 6px; font-size: 12px; color: #475569; line-height: 1.6; border-left: 3px solid #e2e8f0; }
+.what-now strong { color: #1e293b; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.gap-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.gap-table th { text-align: left; padding: 8px 12px; background: #f1f5f9; color: #475569; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; }
+.gap-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; color: #475569; vertical-align: top; line-height: 1.5; }
+.gap-table tr:last-child td { border-bottom: none; }
+.gap-table tr:hover td { background: #fafafa; }
+
+.gap-status { font-size: 10px; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.gs-pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.gs-monitor { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.gs-minor { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.principle-list { display: flex; flex-direction: column; gap: 8px; }
+.principle { display: flex; gap: 10px; padding: 10px 14px; border-radius: 8px; background: #fff; border: 1px solid #e2e8f0; font-size: 12px; color: #475569; line-height: 1.5; }
+.principle-num { font-size: 11px; font-weight: 700; color: #94a3b8; flex-shrink: 0; padding-top: 1px; min-width: 20px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Overview</a>
+  <a href="tasks.html">IT-USA Tasks</a>
+  <a href="incidents.html">New Incidents - US</a>
+  <a href="changes.html" class="active">Changes Report</a>
+</nav>
+
+<h1>Audit Changes Report</h1>
+<p class="page-sub">All workstreams, skills, and actions &nbsp;|&nbsp; Session: June 22–23, 2026</p>
+
+<!-- WORKSTREAMS -->
+<div class="section">
+  <div class="section-title">Workstreams</div>
+
+  <div class="item">
+    <div class="item-header">
+      <div class="item-title">IT-USA Tasks</div>
+      <span class="status-pill status-updated">Updated</span>
+    </div>
+    <ul class="change-list">
+      <li><strong>Step 6:</strong> Slack IT Handoff and Close-Out removed from active routes. Zoho Vault, Slack admin, and FedRAMP/Backoffice routes moved to commented-out section pending team meeting.</li>
+      <li><strong>Step 6:</strong> Unclear Ticket Handling confirmed as catch-all for ambiguous tickets. Skill is built and ready — wiring into Step 6 is the remaining action item.</li>
+      <li><strong>Confirmed:</strong> Task Type Verifier is the assignment gate. All skills called from Step 6 inherit an already-assigned ticket. No skill in this workstream should self-assign.</li>
+    </ul>
+    <div class="what-now"><strong>What it does now</strong>Retrieves full ticket details (Step 1), determines resolution path (Step 2), checks if already resolved (Step 3), validates ticket type and assigns via Task Type Verifier (Step 4), writes internal task summary (Step 5), routes to correct skill (Step 6). Active routes: app access, DL/lists, New Hire, server patching, hardware. Anything unrecognised routes to Unclear Ticket Handling (pending wiring).</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div class="item-title">New Incidents - US</div>
+      <span class="status-pill status-updated">Updated</span>
+    </div>
+    <ul class="change-list">
+      <li><strong>Collect Ticket Information:</strong> Updated to fetch and review full comment thread before proceeding. Agent identifies current conversation state and jumps to the appropriate step rather than always starting from the top.</li>
+      <li><strong>Troubleshooting:</strong> Added exit condition — if KB produces a confident resolution path, skip steps 4, 5, and 6. Proceed directly to Provide Resolution then Monitor and Follow Up.</li>
+      <li><strong>Application Access Verification:</strong> Confirmed conditional — fires for access/permission issues only, not Okta authentication.</li>
+      <li><strong>System Data Collection:</strong> Confirmed conditional — fires only when Confluence KB recommends additional system checks.</li>
+      <li><strong>Gather Additional Information:</strong> Generate Clarifying Questions wired in. After posting, ticket set to On Hold / Awaiting Caller.</li>
+      <li><strong>Monitor and Follow Up:</strong> Updated to re-read full ticket and comment thread before acting on each user reply. Acknowledge what user said, advance — do not repeat prior steps.</li>
+      <li><strong>Removed:</strong> Duplicate Request Handler, User Assigned Devices, Incident Reassignment and Follow-Up Scheduling, Slack update popup routing line.</li>
+      <li><strong>Wrong ticket number in approval UI:</strong> Confirmed platform artifact from ai.work tool approval processing — not a bug.</li>
+    </ul>
+    <div class="what-now"><strong>What it does now</strong>Assigns if unassigned and not emergency channel. Reads full history and jumps to right step. Runs KB search. If KB confident: posts resolution, sets On Hold, waits for confirmation, closes. If KB inconclusive: checks access verification, system data collection if needed, gathers clarifying questions. After each user reply re-reads thread and advances. 4-exchange escalation limit. Closes when user confirms resolution.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div class="item-title">Onboarding Tickets</div>
+      <span class="status-pill status-pending">Not yet audited</span>
+    </div>
+    <div class="what-now"><strong>Current state</strong>Equipment Preparation path is active. Account Creation and IT Permissions is commented out (work in progress — KD-2). onboarding notification test skill is referenced but timing logic needs review.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div class="item-title">Welcome Email Trigger</div>
+      <span class="status-pill status-pending">Not yet audited</span>
+    </div>
+    <div class="what-now"><strong>Current state</strong>Small workstream. Calls Welcome Email skill when ticket is named New Hire and Account Creation and IT Permissions. Excludes Contractor and Equipment Preparation tickets. Structure appears correct.</div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div class="item-title">Slack Involuntary Termination Workflow</div>
+      <span class="status-pill status-pending">Not yet audited</span>
+    </div>
+    <div class="what-now"><strong>Current state</strong>Triggers on Slack message containing exact phrase INVOLUNTARY TERMINATION — IT ACTION REQUIRED in channel C0B09AS7VHQ. Handles full involuntary offboarding: IT claim, cutoff condition, Okta disable, Google Group removal, closure notifications to HR and IT threads.</div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="section">
+  <div class="section-title">Skills</div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Application Permission Requests</div><span class="status-pill status-updated">Updated</span></div>
+    <ul class="change-list">
+      <li>Removed self-assignment step — Assign Task To Yourself Agent was nonexistent. Assignment handled upstream by Task Type Verifier.</li>
+      <li>Removed Communicate Resolution State section — resolution communication now owned by Grant App Access Through Okta Agent.</li>
+      <li>Added Handle Approval Requirements section: if opened_by is a named approver, proceed directly to granting access. If approval still required, post one work note via Approval Notification in Slack and SNOW Agent, set Pending, wait for reply.</li>
+      <li>Fixed action reference: Close Task in SNOW Agent → Close Task in SNOW.</li>
+      <li>Removed duplicate Handle Granting Access block.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Updated distribution list handling</div><span class="status-pill status-confirmed">Confirmed correct</span></div>
+    <ul class="change-list">
+      <li>No changes. Confirmed as live current version superseding deprecated Distribution List Requests. Self-assignment correctly absent — handled upstream by Task Type Verifier.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Distribution List Requests</div><span class="status-pill status-deprecated">Deprecated</span></div>
+    <ul class="change-list">
+      <li>Superseded by Updated distribution list handling. Only functional difference was a self-assignment step that has since moved upstream to Task Type Verifier. Should be archived — do not call from any new routing.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Unclear Ticket Handling</div><span class="status-pill status-rebuilt">Rebuilt</span></div>
+    <ul class="change-list">
+      <li>Removed self-assignment step — handled upstream by Task Type Verifier.</li>
+      <li>Fixed action reference: Assign Task To Yourself Agent → Assign To Yourself.</li>
+      <li>Added pending state update after asking clarifying question.</li>
+      <li>Added set back to In Progress step after requester replies.</li>
+      <li>Added re-evaluation and re-routing back to Step 6 once ask is clear.</li>
+      <li>Removed team notification calls — ticket stays in normal ai.work queue.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">General Troubleshooting</div><span class="status-pill status-updated">Updated</span></div>
+    <ul class="change-list">
+      <li>Added instruction to review full comment thread before running KB search. Context from prior exchanges informs search terms and prevents recommending steps already tried.</li>
+      <li>Removed redundant self-assignment check.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Grant App Access Through Okta Agent</div><span class="status-pill status-updated">Updated</span></div>
+    <ul class="change-list">
+      <li>Removed second call to Get App Access Policy Agent — policy already retrieved by Application Permission Requests and available in context. No second lookup needed.</li>
+      <li>Removed Escalate to Team in SNOW Agent from Grant or Remove Okta Group Access section. Only Approval Notification in Slack and SNOW Agent fires — eliminates double work note on every Okta group addition.</li>
+      <li>Added ServiceNow | Add Comment to Output section — resolution message now posted to requester directly from this action and passed as template to Close Task in SNOW.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Get App Access Policy Agent</div><span class="status-pill status-updated">Updated</span></div>
+    <ul class="change-list">
+      <li>Added approval check after parsing Confluence policy: compares required approver names against opened_by field passed from the calling workflow. Flags approval status in output — satisfied or required with approver names. Calling workflow handles the appropriate path.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Slack IT Handoff and Close-Out</div><span class="status-pill status-removed">Removed from Step 6</span></div>
+    <ul class="change-list">
+      <li>Removed from IT-USA Tasks Step 6 routing. Skill still exists and is reserved for confirmed permanent blockers only — not for approval-pending scenarios. Decision on reactivation for Zoho Vault / Slack admin / FedRAMP pending team meeting.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Incident Reassignment and Follow-Up Scheduling</div><span class="status-pill status-removed">Removed from workstream</span></div>
+    <ul class="change-list">
+      <li>Removed from New Incidents - US workstream. Skill exists in Skills tab but is not called from any live workstream. Contains a duplicate step block (copy-paste error) — fix before reactivating.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Slack Update Popup KB Steps</div><span class="status-pill status-pending">Unreferenced — pending decision</span></div>
+    <ul class="change-list">
+      <li>Routing line removed from New Incidents - US. Skill exists but is not called from anywhere. Decision at team meeting: wire in, update, or archive.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="section">
+  <div class="section-title">Actions</div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Assign To Yourself</div><span class="status-pill status-new">New</span></div>
+    <ul class="change-list">
+      <li>Generic action replacing the nonexistent Assign Task To Yourself Agent. Handles both SCTASK and INC ticket types. Sets assignee to svc_aiwork_it@walkme.com and State to In Progress. Leaves assignment_group unchanged.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Generate Clarifying Questions</div><span class="status-pill status-updated">Updated</span></div>
+    <ul class="change-list">
+      <li>Added ServiceNow | Add Comment call — questions now posted to the ticket directly from the action. Previously the action generated questions but did not post them.</li>
+      <li>Added comment thread review and acknowledgment instruction — agent reads existing comments, acknowledges what user already confirmed, asks only what is still missing.</li>
+      <li>Added attachment handling — agent asks user to paste error text if they have attached a screenshot (attachments not visible to the agent).</li>
+      <li>Example questions commented out for testing — evaluating whether agent generates contextually appropriate questions from category headers alone without treating examples as prescriptive.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Task Type Verifier</div><span class="status-pill status-confirmed">Confirmed correct</span></div>
+    <ul class="change-list">
+      <li>No changes. Confirmed as assignment gate for IT-USA Tasks. Handles ticket type validation AND assignment to svc_aiwork_it@walkme.com. All Step 6 skills inherit an already-assigned ticket.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Close Task in SNOW</div><span class="status-pill status-confirmed">Confirmed correct</span></div>
+    <ul class="change-list">
+      <li>No changes. Accepts resolution template as input. If template provided, uses it as comment. Otherwise writes friendly closing message. One comment, one close — no duplicates.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header"><div class="item-title">Approval Notification in Slack and SNOW Agent</div><span class="status-pill status-confirmed">Confirmed correct</span></div>
+    <ul class="change-list">
+      <li>No changes. Confirmed as the single notification point for IT team work notes before executing an Okta change. Escalate to Team in SNOW Agent removed from alongside it in Grant App Access Through Okta Agent — was causing double notifications on every Okta group addition.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- OPEN ITEMS TABLE -->
+<div class="section">
+  <div class="section-title">Open Items and Known Gaps</div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden">
+    <table class="gap-table">
+      <thead>
+        <tr><th>Item</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Unclear Ticket Handling not yet wired into Step 6 as catch-all</td><td><span class="gap-status gs-pending">Pending team meeting</span></td></tr>
+        <tr><td>Step 6 commented routing items (Zoho Vault, Slack admin, FedRAMP, onboarding, catch-all)</td><td><span class="gap-status gs-pending">Pending team meeting</span></td></tr>
+        <tr><td>Slack IT Handoff and Close-Out Slack channel 404 — connection unreliable</td><td><span class="gap-status gs-pending">Pending investigation</span></td></tr>
+        <tr><td>Incorrect Ticket Handling — overlaps with Task Type Verifier, references nonexistent action</td><td><span class="gap-status gs-pending">Pending decision: archive or repurpose</span></td></tr>
+        <tr><td>Slack Update Popup KB Steps — unreferenced</td><td><span class="gap-status gs-pending">Pending team meeting</span></td></tr>
+        <tr><td>Generate Clarifying Questions example questions commented out</td><td><span class="gap-status gs-monitor">Monitoring — evaluate quality</span></td></tr>
+        <tr><td>Onboarding Tickets workstream</td><td><span class="gap-status gs-pending">Not yet audited</span></td></tr>
+        <tr><td>Welcome Email Trigger workstream</td><td><span class="gap-status gs-pending">Not yet audited</span></td></tr>
+        <tr><td>Slack Involuntary Termination workstream</td><td><span class="gap-status gs-pending">Not yet audited</span></td></tr>
+        <tr><td>u_pending_reason not set alongside Pending in Unclear Ticket Handling</td><td><span class="gap-status gs-minor">Minor — fix when next editing</span></td></tr>
+        <tr><td>General Troubleshooting — redundant assignment check</td><td><span class="gap-status gs-minor">Minor cleanup</span></td></tr>
+        <tr><td>Troubleshooting exit condition in New Incidents - US needs explicit stop instruction</td><td><span class="gap-status gs-pending">Pending update</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DESIGN PRINCIPLES -->
+<div class="section">
+  <div class="section-title">Design Principles Confirmed This Audit</div>
+  <div class="principle-list">
+    <div class="principle"><span class="principle-num">1</span><div><strong>Actions are atomic and context-independent.</strong> Skills carry and reason with context across multiple steps. When building new functionality: if the task requires no surrounding context, build it as an action. If it needs to reason across state or prior steps, build it as a skill.</div></div>
+    <div class="principle"><span class="principle-num">2</span><div><strong>Assignment always happens at the workstream level</strong> before skills are called. Confirmed for both IT-USA Tasks (Task Type Verifier at Step 4) and New Incidents - US (Assign Incident To Yourself Action). No skill in either workstream should self-assign.</div></div>
+    <div class="principle"><span class="principle-num">3</span><div><strong>Early workstream-level filters</strong> handle known ticket patterns before deeper processing. SAP migration, wrong ticket type, self-generated tickets, FedRAMP — all caught at the workstream level before any skill executes.</div></div>
+    <div class="principle"><span class="principle-num">4</span><div><strong>Comment first, then state change.</strong> On Hold is set after the agent posts a comment to the user — never before. The agent must communicate before changing ticket state at any point in either workstream.</div></div>
+    <div class="principle"><span class="principle-num">5</span><div><strong>Try to resolve fast, ask only when needed.</strong> KB search runs before clarifying questions. If KB produces a confident resolution path, skip Gather Additional Information entirely and go directly to Provide Resolution. This minimises user wait time.</div></div>
+    <div class="principle"><span class="principle-num">6</span><div><strong>Task Type Verifier is the assignment gate for IT-USA Tasks.</strong> No skill in that workstream self-assigns. The gate is at Step 4 — all Step 6 routing skills inherit an already-assigned ticket.</div></div>
+    <div class="principle"><span class="principle-num">7</span><div><strong>Approval satisfied by submitter identity.</strong> If opened_by matches a named required approver in the access policy, the ticket submission itself constitutes approval. The agent proceeds directly to granting access without requesting separate approval.</div></div>
+    <div class="principle"><span class="principle-num">8</span><div><strong>Skills are orchestrators, not communicators.</strong> Application Permission Requests directs the flow. Communication is owned by the skills and actions that perform the actual work — not by the orchestrating skill. Avoids duplicate notifications.</div></div>
+  </div>
+</div>
+
+</body>
+</html>
