@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>WalkMe IT AI Worker — Executive Workflow View</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1e293b; padding: 24px; }
+h1 { font-size: 20px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+.subtitle { font-size: 12px; color: #64748b; margin-bottom: 20px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ws-card { border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; padding: 16px; }
+.ws-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.ws-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.ws-title { font-size: 13px; font-weight: 600; color: #0f172a; }
+.ws-trigger { font-size: 11px; color: #64748b; margin-top: 2px; }
+.step-list { display: flex; flex-direction: column; gap: 3px; }
+.step { display: flex; align-items: flex-start; gap: 8px; padding: 6px 8px; border-radius: 6px; cursor: pointer; transition: background 0.15s; }
+.step:hover { background: #e2e8f0; }
+.step-num { font-size: 10px; color: #64748b; font-weight: 500; min-width: 16px; padding-top: 2px; }
+.step-name { font-size: 12px; color: #1e293b; font-weight: 500; }
+.step-desc { font-size: 11px; color: #64748b; margin-top: 1px; }
+.badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 99px; margin-left: 6px; }
+.badge-teal { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+.badge-blue { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+.badge-amber { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.badge-red { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.branch-section { margin-top: 10px; }
+.branch-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.branch-grid { display: grid; gap: 4px; }
+.branch-grid.five { grid-template-columns: repeat(5, 1fr); }
+.branch-grid.three { grid-template-columns: repeat(3, 1fr); }
+.branch-grid.two { grid-template-columns: 1fr 1fr; }
+.branch-item { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 6px; cursor: pointer; transition: border-color 0.15s; }
+.branch-item:hover { border-color: #64748b; }
+.branch-item.gap { border-color: #4a2020; background: #fef2f2; }
+.branch-name { font-size: 10px; font-weight: 500; color: #64748b; }
+.branch-sub { font-size: 10px; color: #64748b; margin-top: 1px; }
+.detail-panel { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-top: 16px; min-height: 120px; }
+.detail-panel h3 { font-size: 13px; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+.detail-panel p { font-size: 12px; color: #64748b; line-height: 1.6; margin-bottom: 8px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; }
+.tag-blue { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+.tag-teal { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+.tag-amber { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.tag-red { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.tag-gray { background: #e2e8f0; color: #64748b; border: 1px solid #2d3748; }
+.status-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.status-pill { font-size: 11px; padding: 3px 10px; border-radius: 99px; }
+.pending-note { margin-top: 10px; padding: 6px 8px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; font-size: 11px; color: #fbbf24; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #64748b; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<h1>WalkMe IT AI Worker — Executive Workflow View</h1>
+<p class="subtitle">Click any step or route to see details &nbsp;|&nbsp; Audit session: June 22–23, 2026</p>
+
+<div class="status-bar">
+  <span class="status-pill" style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7">&#10003; IT-USA Tasks — Audited</span>
+  <span class="status-pill" style="background:#d1fae5;color:#065f46;border:1px solid #6ee7b7">&#10003; New Incidents - US — Audited</span>
+  <span class="status-pill" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d">&#8987; Onboarding — Pending</span>
+  <span class="status-pill" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d">&#8987; Slack Termination — Pending</span>
+</div>
+
+<div class="grid">
+
+<!-- IT-USA TASKS -->
+<div class="ws-card">
+  <div class="ws-header">
+    <div class="ws-dot" style="background:#818cf8"></div>
+    <div>
+      <div class="ws-title">IT-USA Tasks</div>
+      <div class="ws-trigger">Trigger: ServiceNow — New Tasks</div>
+    </div>
+  </div>
+  <div class="step-list">
+    <div class="step" onclick="show('t1')"><div class="step-num">1</div><div class="step-content"><div class="step-name">Retrieve ticket details</div><div class="step-desc">RITM fields, requester, request type, target app</div></div></div>
+    <div class="step" onclick="show('t2')"><div class="step-num">2</div><div class="step-content"><div class="step-name">Determine resolution path</div><div class="step-desc">Clear ask? If not, ask IT team before proceeding</div></div></div>
+    <div class="step" onclick="show('t3')"><div class="step-num">3</div><div class="step-content"><div class="step-name">Check if already resolved</div><div class="step-desc">Approval &#8800; resolved</div></div></div>
+    <div class="step" onclick="show('t4')"><div class="step-num">4</div><div class="step-content"><div class="step-name">Task Type Verifier <span class="badge badge-teal">Assignment gate</span></div><div class="step-desc">Validates ticket type + assigns to agent</div></div></div>
+    <div class="step" onclick="show('t5')"><div class="step-num">5</div><div class="step-content"><div class="step-name">Present task summary</div><div class="step-desc">Internal work note: what, who, target app, actions</div></div></div>
+    <div class="step" onclick="show('t6')"><div class="step-num">6</div><div class="step-content"><div class="step-name">Scope check &amp; routing</div><div class="step-desc">Route to correct skill</div></div></div>
+  </div>
+  <div class="branch-section">
+    <div class="branch-label">Step 6 Active Routes</div>
+    <div class="branch-grid five">
+      <div class="branch-item" onclick="show('tb1')"><div class="branch-name">App access</div><div class="branch-sub">Permission Requests</div></div>
+      <div class="branch-item" onclick="show('tb2')"><div class="branch-name">DL / lists</div><div class="branch-sub">Updated DL handling</div></div>
+      <div class="branch-item" onclick="show('tb3')"><div class="branch-name">New hire</div><div class="branch-sub">Welcome Email</div></div>
+      <div class="branch-item" onclick="show('tb4')"><div class="branch-name">Hardware</div><div class="branch-sub">Assign &amp; notify</div></div>
+      <div class="branch-item" onclick="show('tb5')"><div class="branch-name">Server patch</div><div class="branch-sub">IT-T3, end chat</div></div>
+    </div>
+    <div class="branch-grid two" style="margin-top:4px">
+      <div class="branch-item" onclick="show('tb6')"><div class="branch-name">Unclear ticket</div><div class="branch-sub">Clarify then re-route</div></div>
+      <div class="branch-item gap" onclick="show('tgap')"><div class="branch-name" style="color:#991b1b">&#9888; Gap: not wired yet</div><div class="branch-sub" style="color:#b91c1c">Pending team meeting</div></div>
+    </div>
+  </div>
+  <div class="branch-section">
+    <div class="branch-label">App Access Sub-flow</div>
+    <div class="branch-grid three">
+      <div class="branch-item" onclick="show('ta1')"><div class="branch-name">Get policy</div><div class="branch-sub">Confluence then Okta</div></div>
+      <div class="branch-item" onclick="show('ta2')"><div class="branch-name">Handle approval</div><div class="branch-sub">Check opened_by</div></div>
+      <div class="branch-item" onclick="show('ta3')"><div class="branch-name">Grant and close</div><div class="branch-sub">Okta + comment + close</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW INCIDENTS US -->
+<div class="ws-card">
+  <div class="ws-header">
+    <div class="ws-dot" style="background:#34d399"></div>
+    <div>
+      <div class="ws-title">New Incidents - US</div>
+      <div class="ws-trigger">Trigger: ServiceNow — New Incidents</div>
+    </div>
+  </div>
+  <div class="step-list">
+    <div class="step" onclick="show('i1')"><div class="step-num">1</div><div class="step-content"><div class="step-name">Assign</div><div class="step-desc">Only if unassigned and not emergency channel</div></div></div>
+    <div class="step" onclick="show('i2')"><div class="step-num">2</div><div class="step-content"><div class="step-name">Collect ticket info <span class="badge badge-teal">Reads full history</span></div><div class="step-desc">Full details + comment thread. Jump to right step.</div></div></div>
+    <div class="step" onclick="show('i3')"><div class="step-num">3</div><div class="step-content"><div class="step-name">Troubleshooting <span class="badge badge-blue">KB clear = skip ahead</span></div><div class="step-desc">SAP migration comms or General Troubleshooting + KB</div></div></div>
+    <div class="step" onclick="show('i4')"><div class="step-num">4</div><div class="step-content"><div class="step-name">Application access verification</div><div class="step-desc">Access issues only — not Okta auth</div></div></div>
+    <div class="step" onclick="show('i5')"><div class="step-num">5</div><div class="step-content"><div class="step-name">System data collection</div><div class="step-desc">Only if Confluence KB recommends it</div></div></div>
+    <div class="step" onclick="show('i6')"><div class="step-num">6</div><div class="step-content"><div class="step-name">Gather additional information</div><div class="step-desc">Generate Clarifying Questions then On Hold</div></div></div>
+    <div class="step" onclick="show('i7')"><div class="step-num">7</div><div class="step-content"><div class="step-name">Provide resolution</div><div class="step-desc">KB content + Add Comment + Confluence links</div></div></div>
+    <div class="step" onclick="show('i8')"><div class="step-num">8</div><div class="step-content"><div class="step-name">Pending confirmation <span class="badge badge-amber">On Hold</span></div><div class="step-desc">SLA paused while waiting for user</div></div></div>
+    <div class="step" onclick="show('i9')"><div class="step-num">9</div><div class="step-content"><div class="step-name">Monitor and follow up</div><div class="step-desc">Re-read thread, acknowledge, advance. 4-exchange limit.</div></div></div>
+    <div class="step" onclick="show('i10')"><div class="step-num">10</div><div class="step-content"><div class="step-name">Close ticket</div><div class="step-desc">Close Incident in SNOW Action</div></div></div>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="ws-card">
+  <div class="ws-header">
+    <div class="ws-dot" style="background:#fbbf24"></div>
+    <div>
+      <div class="ws-title">Onboarding Tickets</div>
+      <div class="ws-trigger">Trigger: ServiceNow — New Tasks (New Hire)</div>
+    </div>
+  </div>
+  <div class="step-list">
+    <div class="step" onclick="show('o1')"><div class="step-num">&#8594;</div><div class="step-content"><div class="step-name">Equipment Preparation <span class="badge badge-teal">Active</span></div><div class="step-desc">Onboarding Equipment Preparation skill</div></div></div>
+    <div class="step" onclick="show('o2')"><div class="step-num">&#8594;</div><div class="step-content"><div class="step-name">Account Creation <span class="badge badge-red">Disabled</span></div><div class="step-desc">Commented out — work in progress</div></div></div>
+    <div class="step" onclick="show('o3')"><div class="step-num">&#8594;</div><div class="step-content"><div class="step-name">Team notification</div><div class="step-desc">onboarding notification test skill</div></div></div>
+    <div class="step" onclick="show('o4')"><div class="step-num">&#8594;</div><div class="step-content"><div class="step-name">Close after start date</div><div class="step-desc">Work notes summary then close ticket</div></div></div>
+  </div>
+  <div class="pending-note">&#8987; Not yet audited — scheduled next</div>
+</div>
+
+<!-- SLACK TERMINATION -->
+<div class="ws-card">
+  <div class="ws-header">
+    <div class="ws-dot" style="background:#f87171"></div>
+    <div>
+      <div class="ws-title">Slack Involuntary Termination</div>
+      <div class="ws-trigger">Trigger: Slack channel message — exact phrase</div>
+    </div>
+  </div>
+  <div class="step-list">
+    <div class="step" onclick="show('s1')"><div class="step-num">1</div><div class="step-content"><div class="step-name">Validate trigger</div><div class="step-desc">Channel C0B09AS7VHQ + exact phrase match</div></div></div>
+    <div class="step" onclick="show('s2')"><div class="step-num">2</div><div class="step-content"><div class="step-name">Announce to IT and wait for claim</div><div class="step-desc">Post to #usit, wait for IT member reply</div></div></div>
+    <div class="step" onclick="show('s3')"><div class="step-num">3</div><div class="step-content"><div class="step-name">Wait for cutoff condition</div><div class="step-desc">Zoom Done reply or specified cutoff time</div></div></div>
+    <div class="step" onclick="show('s4')"><div class="step-num">4</div><div class="step-content"><div class="step-name">Automated account actions</div><div class="step-desc">Okta disable, MFA reset, Google Group removal</div></div></div>
+    <div class="step" onclick="show('s5')"><div class="step-num">5</div><div class="step-content"><div class="step-name">Closure notifications</div><div class="step-desc">HR thread + #usit summary. Slack disable is manual.</div></div></div>
+  </div>
+  <div class="pending-note">&#8987; Not yet audited — scheduled after Onboarding</div>
+</div>
+
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detail">
+  <h3 id="d-title" style="color:#475569">Click any step to see details</h3>
+  <p id="d-body" style="color:#475569">Select a step from any workstream above to read what it does, which skills or actions it calls, and any known issues.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#818cf8"></div>IT-USA Tasks</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>New Incidents - US</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>Onboarding (pending)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Slack Termination (pending)</div>
+</div>
+
+<script>
+var data = {
+  t1:{title:'Step 1 — Retrieve Full Ticket Details',body:'Uses ServiceNow | Get Request Item Details on the parent RITM number. Retrieves: opened_by (actual submitter), u_task_for (who request is for), multiRowVariableSets (Request for employees on behalf of others), cat_item.display_value (request type), business_service.display_value (target app), description and comments. Identifies whether ticket was submitted on behalf of someone else.',tags:[{l:'ServiceNow | Get Request Item Details',t:'blue'}]},
+  t2:{title:'Step 2 — Determine Resolution Path',body:'If the requester is describing a problem without a clear action, asks the IT team in chat what comment to leave. Waits for human input, posts that comment, sets ticket to Pending. Does not proceed until a clear action is confirmed. If a specific action is explicitly requested, proceeds immediately.',tags:[{l:'Human-in-loop',t:'gray'},{l:'ServiceNow | Update Task',t:'blue'}]},
+  t3:{title:'Step 3 — Check If Already Resolved',body:'Reviews ticket comments and current state. Important: Approval does not equal resolved. Approval means the team has authorised the agent to proceed — the task is not done until the agent completes it. If already resolved, closes and ends. If not, proceeds to Step 4.',tags:[{l:'Decision point',t:'gray'}]},
+  t4:{title:'Step 4 — Task Type Verifier (Assignment Gate)',body:'Validates whether the ticket was submitted with the correct request type. If catalog item is New Request and the app exists in ServiceNow, closes the ticket as incorrectly submitted and redirects requester. If correctly submitted, assigns ticket to svc_aiwork_it@walkme.com and sets In Progress. This is the assignment gate — all Step 6 skills inherit an already-assigned ticket and must not self-assign.',tags:[{l:'Assignment gate',t:'teal'},{l:'Task Type Verifier',t:'teal'},{l:'Assign To Yourself',t:'blue'}]},
+  t5:{title:'Step 5 — Present Task Summary',body:'Writes a concise internal work note visible to the IT team. Covers: what is being requested, target application verified against description, required actions, who the request is for. Formatted with bullet points. No metadata. This step is informational only — no action taken on the ticket.',tags:[{l:'ServiceNow | Add Work Notes',t:'blue'},{l:'Internal only',t:'gray'}]},
+  t6:{title:'Step 6 — Scope Check and Routing',body:'Routes to the correct skill based on ticket content. Active routes: App access, DL/lists, New hire, Server patching, Hardware. Anything unrecognised routes to Unclear Ticket Handling (pending wiring into Step 6). Out-of-scope items (Zoho Vault, Slack admin, FedRAMP) are pending team meeting decision.',tags:[{l:'Routing hub',t:'teal'}]},
+  tb1:{title:'Route — Application Permission Requests',body:'Handles any request to give an employee access to an app. Calls Requester Fields Reasoning Agent to confirm who the request is for. Calls Get App Access Policy Agent to find Confluence instructions and check approval requirements against opened_by. If approval already satisfied (submitter is a named approver) proceeds directly to granting access. If approval still required, posts one work note, sets Pending, waits for reply. Grants access via Grant App Access Through Okta Agent. Posts resolution comment and closes via Close Task in SNOW.',tags:[{l:'Application Permission Requests',t:'teal'},{l:'Get App Access Policy Agent',t:'blue'},{l:'Grant App Access Through Okta Agent',t:'blue'}]},
+  tb2:{title:'Route — Updated Distribution List Handling',body:'Handles DL, list serve, and distribution list requests. Confirms requester via Requester Fields Reasoning Agent. Supports add, remove, create, and delete on Google Groups. Requires Approval Notification before executing changes. Closes via Close Task in SNOW. Supersedes the deprecated Distribution List Requests skill.',tags:[{l:'Updated DL Handling',t:'teal'},{l:'Google Workspace tools',t:'blue'}]},
+  tb3:{title:'Route — Welcome Email',body:'Fires when ticket is named New Hire and Account Creation and IT Permissions. Sends a welcome email to the new hire at both personal and work email. CCs nhsf_notifications and peopleteam-ops. Attaches onboarding documents from Google Drive. Does not fire for Contractor or Equipment Preparation tickets.',tags:[{l:'Welcome Email',t:'teal'},{l:'Gmail | Send Email',t:'blue'}]},
+  tb4:{title:'Route — Assign Hardware Requests and Notify Assignee',body:'Handles hardware requests. Asks user for shipping address and ZIP code. Assigns task to the hardware assignee, sets Pending / Pending 3rd Party. Sends email notification to assignee with task summary. Adds work note confirming completion.',tags:[{l:'Assign Hardware Requests',t:'teal'},{l:'Gmail | Send Email',t:'blue'}]},
+  tb5:{title:'Route — Server Patching',body:'Uses ServiceNow | Update Task to assign the ticket to team IT-T3 - System. Then ends chat. Known debt: should add work notes explaining why before ending, consistent with the handoff pattern used elsewhere.',tags:[{l:'ServiceNow | Update Task',t:'blue'},{l:'Known debt: no work notes',t:'amber'}]},
+  tb6:{title:'Route — Unclear Ticket Handling (Catch-all)',body:'Fires when ticket passes Task Type Verifier but the request is ambiguous. Asks a clarifying question via Add Comment. Sets ticket to Pending. Waits for reply. Sets back to In Progress. Re-evaluates ticket. Returns to Step 6 routing with the now-clear ask. No team notification. Note: not yet wired into Step 6 instructions — pending team meeting.',tags:[{l:'Unclear Ticket Handling',t:'teal'},{l:'Not yet wired into Step 6',t:'amber'}]},
+  tgap:{title:'Gap — Step 6 Commented Routing Items',body:'Several routing scenarios are commented out pending a team meeting next week: AI proactive workflow, any other New Hire / Onboarding tickets, troubleshooting / incident-style requests in a task ticket, Slack channel admin permissions, Zoho Vault access, FedRAMP / Backoffice requests, and a catch-all for anything not listed. Tickets matching these patterns currently have no instruction.',tags:[{l:'Pending team meeting',t:'amber'},{l:'No active route',t:'red'}]},
+  ta1:{title:'App Access — Get App Access Policy Agent',body:'Searches Confluence under parent page 635109380 for the requested app name with up to 7 name variations. If found, reads the access policy and checks whether approval is required. Compares required approver names against opened_by. Flags whether approval is satisfied or still required in output. Falls back to Okta group search if no Confluence page found. Always produces a user-facing message.',tags:[{l:'Confluence CQL search',t:'blue'},{l:'Okta fallback',t:'gray'},{l:'Approval check vs opened_by',t:'teal'}]},
+  ta2:{title:'App Access — Handle Approval Requirements',body:'If Get App Access Policy Agent flags approval satisfied (opened_by matches a named approver): proceeds directly to granting access. If approval still required: posts one work note via Approval Notification in Slack and SNOW Agent naming the required approvers. Sets ticket to Pending / Pending Requester. Waits for approver reply. When confirmed, proceeds to Handle Granting Access.',tags:[{l:'Approval Notification in Slack and SNOW Agent',t:'blue'},{l:'ServiceNow | Update Task',t:'blue'}]},
+  ta3:{title:'App Access — Grant and Close',body:'Grant App Access Through Okta Agent: gets employee Okta identity, searches for correct Okta groups using policy already in context (no second policy lookup), checks current membership, posts one approval work note, adds user to Okta group, posts resolution comment to requester. Close Task in SNOW uses that comment as template and closes the ticket. One comment, one close — no duplicates.',tags:[{l:'Grant App Access Through Okta Agent',t:'blue'},{l:'Okta | Add Users to Groups',t:'blue'},{l:'Close Task in SNOW',t:'blue'}]},
+  i1:{title:'Assign',body:'Uses Assign Incident To Yourself Action only if the ticket is unassigned AND was not opened through the emergency Slack channel by ai.work. If a user explicitly requests assignment, confirms first then assigns. If assigned to anyone other than AI Work or svc_aiwork_it@walkme.com, stops and ends chat immediately.',tags:[{l:'Assign Incident To Yourself Action',t:'blue'}]},
+  i2:{title:'Collect Ticket Info',body:'Uses ServiceNow | Get Incident Details to fetch full ticket including short description, details, and complete comment thread. Reviews all existing comments to understand what has already been asked, confirmed, or tried. Proceeds to the step that reflects the current state of the conversation. Does not change ticket state here.',tags:[{l:'ServiceNow | Get Incident Details',t:'blue'},{l:'Full comment history',t:'teal'}]},
+  i3:{title:'Troubleshooting',body:'If ticket short description equals SAP Laptop migration phrase: uses SAP Laptop Migration Comms. Otherwise uses General Troubleshooting which reviews comment history then runs Targeted KB Search (max 2 CQL queries, 5 pages). Exit logic: if KB confident, skip App Access Verification, System Data Collection, and Gather Additional Information. Go directly to Provide Resolution then Monitor and Follow Up. If KB inconclusive, proceed through remaining steps.',tags:[{l:'General Troubleshooting',t:'teal'},{l:'Targeted KB Search',t:'blue'},{l:'SAP Laptop Migration Comms',t:'blue'},{l:'KB confident = skip ahead',t:'teal'}]},
+  i4:{title:'Application Access Verification',body:'Conditional — only fires when the issue involves access or permissions to a specific application. Does not fire for Okta issues. Uses Application Access Verification action which searches Confluence, falls back to Okta group search, and outputs structured access findings.',tags:[{l:'Application Access Verification',t:'blue'},{l:'Conditional only',t:'gray'}]},
+  i5:{title:'System Data Collection',body:'Conditional — only runs if the Confluence KB article found during troubleshooting explicitly recommends additional system checks. Uses System Data Collection action: Okta log analysis, system log search, and device listing. Outputs structured findings on authentication, device status, and root cause. Skip otherwise.',tags:[{l:'System Data Collection',t:'blue'},{l:'Conditional only',t:'gray'}]},
+  i6:{title:'Gather Additional Information',body:'Only runs if KB was inconclusive and more user detail is needed. Uses Generate Clarifying Questions which reviews existing comments, acknowledges what user already confirmed, asks only what is still missing, asks user to paste error text if they attached a screenshot (agent cannot view attachments), and posts via Add Comment. After posting: sets On Hold / Awaiting Caller to stop SLA clock.',tags:[{l:'Generate Clarifying Questions',t:'teal'},{l:'ServiceNow | Add Comment',t:'blue'},{l:'On Hold after posting',t:'amber'}]},
+  i7:{title:'Provide Resolution',body:'Uses most relevant KB article content. Combines up to 4 applicable pages into a single comment to avoid duplication. Posts via Add Comment in human, helpful tone. Includes Confluence page links. If agent reached here via the KB-confident skip path, fires immediately after troubleshooting completes.',tags:[{l:'ServiceNow | Add Comment',t:'blue'},{l:'Confluence links',t:'gray'}]},
+  i8:{title:'Pending Confirmation',body:'After sending a resolution, sets ticket to On Hold / Awaiting Caller using ServiceNow | Update Incident. Stops the SLA clock while waiting for the user to confirm the resolution worked. Only fires after a resolution has been sent — not during clarifying questions or mid-troubleshooting.',tags:[{l:'ServiceNow | Update Incident',t:'blue'},{l:'On Hold',t:'amber'},{l:'SLA pause',t:'amber'}]},
+  i9:{title:'Monitor and Follow Up',body:'After each user reply, before acting: re-fetches full ticket and comment thread via Get Incident Details. Reviews what the agent has already told the user and what user has confirmed or tried. Does not repeat steps already provided. Acknowledges reply and advances to the next logical step. After 4 exchanges (one AI comment + one user reply equals one exchange), escalates by changing assignee to unknown and adding a comment explaining why.',tags:[{l:'ServiceNow | Get Incident Details',t:'blue'},{l:'4-exchange escalation limit',t:'amber'}]},
+  i10:{title:'Close Ticket',body:'When user confirms issue is resolved: uses Close Incident in SNOW Action which writes a friendly closing comment, sets state to Resolved with a close_code, sets assignee to svc_aiwork_it@walkme.com, and validates changes took effect by re-fetching the ticket. If state did not update correctly, asks user to close manually.',tags:[{l:'Close Incident in SNOW Action',t:'teal'},{l:'Validates changes',t:'gray'}]},
+  o1:{title:'Onboarding — Equipment Preparation',body:'Active skill. Handles the Computer Preparation ticket for new hires. Assigns to itself via Assign Equipment Preparation To Yourself, retrieves user details from the ticket, collects shipping address, sends equipment request, confirms completion. Closes ticket via Close Task in SNOW.',tags:[{l:'Active',t:'teal'},{l:'Onboarding - Equipment Preparation',t:'blue'}]},
+  o2:{title:'Onboarding — Account Creation and IT Permissions',body:'Currently disabled (commented out in workstream). Skill is fully defined but parked as work in progress. Calls Lifecycle - test, Baseline Access Extractor, and Close Task in SNOW. Both the Lifecycle - test naming and the skill itself need review before activation. Known debt KD-2 and KD-3.',tags:[{l:'Disabled',t:'red'},{l:'KD-2: Work in progress',t:'amber'}]},
+  o3:{title:'Onboarding — Team Notification',body:'Uses onboarding notification test skill. Timing logic: only proceeds if today is at least two weeks before the onboarding date. Schedules notification to IT team. Full audit pending.',tags:[{l:'onboarding notification test',t:'blue'},{l:'Not yet audited',t:'amber'}]},
+  o4:{title:'Onboarding — Close Ticket',body:'After onboarding tasks complete, uses Add Work Notes to document what was done, then closes ticket after the start date. Full audit pending.',tags:[{l:'ServiceNow | Add Work Notes',t:'blue'},{l:'Not yet audited',t:'amber'}]},
+  s1:{title:'Slack Termination — Validate Trigger',body:'Only proceeds if the Slack message is in channel simonesaiworkagent (C0B09AS7VHQ) AND contains the exact phrase: INVOLUNTARY TERMINATION — IT ACTION REQUIRED. If either condition is not true, stops with no action. Extracts: employee email (required and authoritative), employee name, HRBP Slack user, GSuite delegation info, Zoom meeting info or cutoff time.',tags:[{l:'Slack trigger',t:'blue'},{l:'Exact phrase match',t:'gray'}]},
+  s2:{title:'Slack Termination — Announce and Wait for Claim',body:'Posts a new message to #usit announcing the involuntary offboard. Includes employee name, email, GSuite delegation info, Zoom info or cutoff time, and permalink to original HR message. Asks an IT employee to claim the offboard by replying with a claim phrase. Waits for first non-bot reply claiming it. Records claimant Slack user ID and name. Replies in original HR thread confirming who claimed.',tags:[{l:'Slack | Send Channel Message',t:'blue'}]},
+  s3:{title:'Slack Termination — Wait for Cutoff',body:'If Zoom meeting info exists: waits for HR/requester to reply Done in the original HR thread (case-insensitive, allows surrounding punctuation). If no Zoom meeting: waits until the specified cutoff time in local/business timezone. If timezone is ambiguous, asks HR for clarification before proceeding. Does not proceed with destructive account actions until cutoff condition is satisfied.',tags:[{l:'Cutoff condition gate',t:'amber'}]},
+  s4:{title:'Slack Termination — Automated Account Actions',body:'Once cutoff condition is met, announces in both HR thread and #usit that account disable has begun. Finds Okta user by employee email. Lists and disables/resets each Okta device. Resets MFA factors. Revokes assigned Okta app access where tool support allows. Finds Google Workspace user, lists all Google Groups, removes from all groups. Keeps a concise action log. Does not disable Slack — that is manual for IT. Continues with remaining safe steps if any single step fails.',tags:[{l:'Okta tools',t:'blue'},{l:'Google Workspace tools',t:'blue'},{l:'Slack disable is manual',t:'amber'}]},
+  s5:{title:'Slack Termination — Closure Notifications',body:'In original HR thread: replies offboarding complete, includes Okta account status, tags HRBP/requester, adds checkmark reaction to original HR message. In #usit thread: replies offboarding complete, summarises automated actions (Okta device reset/disable, access revoke, Google Group removals), explicitly states Slack access must be manually disabled, tags the IT user who claimed. Tone: concise, professional, calm. Tool errors go in IT thread only — not exposed to HR.',tags:[{l:'Slack | Reply in Thread',t:'blue'},{l:'Tone: sensitive workflow',t:'gray'}]}
+};
+
+function show(id) {
+  var d = data[id];
+  if (!d) return;
+  document.getElementById('d-title').textContent = d.title;
+  document.getElementById('d-title').style.color = '#f1f5f9';
+  var html = '<p>' + d.body + '</p>';
+  if (d.tags && d.tags.length) {
+    html += '<div class="tag-row">';
+    d.tags.forEach(function(t) { html += '<span class="tag tag-' + t.t + '">' + t.l + '</span>'; });
+    html += '</div>';
+  }
+  document.getElementById('d-body').innerHTML = html;
+}
+</script>
+</body>
+</html>
